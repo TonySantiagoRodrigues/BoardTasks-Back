@@ -1,3 +1,4 @@
+
 name: Pipeline de produção
 env:
   NODE_ENV: production
@@ -76,3 +77,4 @@ jobs:
 
       - name: Deploy de artefatos do projeto na Vercel
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+
