@@ -6,8 +6,6 @@
     "start": "node ./index.js",
     "autoDoc": "node ./swagger/autoGenDoc.js",
     "dev": "npx nodemon ./swagger/autoGenDoc.js"
-    
-   
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -15,6 +13,7 @@
     "debug": "~2.6.9",
     "dotenv": "^16.3.1",
     "express": "~4.16.1",
+    "helmet": "^7.0.0",
     "mongoose": "^7.4.3",
     "mongoose-to-swagger": "^1.5.1",
     "morgan": "~1.9.1",
