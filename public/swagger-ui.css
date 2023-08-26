@@ -141,12 +141,15 @@
 	text-transform: none
 }
 
+/* Set the 'appearance' property for compatibility */
 .swagger-ui [type=reset],
 .swagger-ui [type=submit],
 .swagger-ui button,
 .swagger-ui html [type=button] {
-	-webkit-appearance: button
+    -webkit-appearance: button;
+    appearance: button; /* Standard property for compatibility */
 }
+
 
 .swagger-ui [type=button]::-moz-focus-inner,
 .swagger-ui [type=reset]::-moz-focus-inner,
@@ -196,10 +199,14 @@
 	height: auto
 }
 
+/* Set the 'appearance' property for compatibility */
 .swagger-ui [type=search] {
-	-webkit-appearance: textfield;
-	outline-offset: -2px
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    outline-offset: -2px;
 }
+
 
 .swagger-ui [type=search]::-webkit-search-cancel-button,
 .swagger-ui [type=search]::-webkit-search-decoration {
@@ -3380,10 +3387,13 @@
 	}
 }
 
+/* Define appearance for elements with class .input-reset */
 .swagger-ui .input-reset {
-	-webkit-appearance: none;
-	-moz-appearance: none
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
 }
+
 
 .swagger-ui .button-reset::-moz-focus-inner,
 .swagger-ui .input-reset::-moz-focus-inner {
