@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
-const swaggerOptions = { customCssUrl: '/swagger-ui.css' };
+const swaggerOptions = { customCssUrl: '/swagger-ui/swagger-ui.css' };
 const helmet = require('helmet'); // Importe o pacote helmet
 
 const routes = require('./src/routes');
@@ -13,7 +13,13 @@ const authDicProducao = require('./src/middlewares/authDoc');
 const app = express();
 require('dotenv').config();
 
-app.use(cors());
+// Defina a porta correta
+const PORT = process.env.PORT || 4000;
+
+
+app.use(cors({
+  origin: 'https://localhost:4000' // Permitir solicitações de https://localhost:4000
+}));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -32,13 +38,11 @@ app.use(
 );
 
 if (process.env.NODE_ENV !== 'test') {
-  var swaggerFile = require('./swagger/swagger_output.json');
-  app.get('/', (req, res) => {
-    /* #swagger.ignora = true */
-    res.redirect('/doc');
-  });
+  const swaggerFile = require('./swagger/swagger_output.json');
+  app.get('/', (req, res) => { /* #swagger.ignore = true */ res.redirect('/doc'); });
+
   app.use(
-    '/doc',
+    '/doc/',
     authDicProducao,
     swaggerUi.serve,
     swaggerUi.setup(swaggerFile, swaggerOptions)
@@ -49,7 +53,9 @@ routes(app);
 
 if (process.env.NODE_ENV !== 'test') {
   const PORT = process.env.PORT || 4000;
-  app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+  app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
+  });
 }
 
 module.exports = app;

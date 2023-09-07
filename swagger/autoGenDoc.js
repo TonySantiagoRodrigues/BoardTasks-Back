@@ -14,9 +14,9 @@ let doc = {
         description: "Documentação da API do BoardTasks."
     },
 
-    server: [
+    servers: [
         { 
-            url: "http://localhost:4000",
+            url: "https://localhost:4000",
             description: "Servidor localhost"
         },
         {
