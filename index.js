@@ -1,6 +1,6 @@
 const express = require('express');
-const https = require('https');
-const fs = require('fs');
+const https = require('https'); // Importe o módulo https
+const fs = require('fs'); // Importe o módulo fs para ler certificados
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -20,11 +20,11 @@ const PORT = process.env.PORT || 4000;
 
 // Configuração do servidor HTTPS
 const httpsOptions = {
-  key: fs.readFileSync(path.join(__dirname, 'certificados', 'key.pem')),
-  cert: fs.readFileSync(path.join(__dirname, 'certificados', 'cert.pem')),
+  key: fs.readFileSync(path.join(__dirname, 'certificados', 'key.pem')), // Substitua com o caminho real para sua chave privada
+  cert: fs.readFileSync(path.join(__dirname, 'certificados', 'cert.pem')), // Substitua com o caminho real para seu certificado
 };
 
-const server = https.createServer(httpsOptions, app);
+const server = https.createServer(httpsOptions, app); // Crie o servidor HTTPS
 
 // Configure o middleware CORS para permitir solicitações de qualquer origem
 app.use(cors());
