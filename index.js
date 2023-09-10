@@ -1,11 +1,13 @@
 const express = require('express');
+const https = require('https');
+const fs = require('fs');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerOptions = { customCssUrl: '/swagger-ui/swagger-ui.css' };
-const helmet = require('helmet'); // Importe o pacote helmet
+const helmet = require('helmet');
 
 const routes = require('./src/routes');
 const authDicProducao = require('./src/middlewares/authDoc');
@@ -16,23 +18,29 @@ require('dotenv').config();
 // Defina a porta correta
 const PORT = process.env.PORT || 4000;
 
+// Configuração do servidor HTTPS
+const httpsOptions = {
+  key: fs.readFileSync(path.join(__dirname, 'certificados', 'key.pem')),
+  cert: fs.readFileSync(path.join(__dirname, 'certificados', 'cert.pem')),
+};
 
-app.use(cors({
-  origin: 'https://localhost:4000' // Permitir solicitações de https://localhost:4000
-}));
+const server = https.createServer(httpsOptions, app);
+
+// Configure o middleware CORS para permitir solicitações de qualquer origem
+app.use(cors());
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Adicione a CSP usando o pacote helmet
+// Configure a CSP usando o pacote helmet
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", "cdn.example.com"], // Adicione outras fontes de estilo permitidas aqui
-      // Adicione mais diretivas conforme necessário
+      styleSrc: ["'self'", "'unsafe-inline'", "cdn.example.com"],
     },
   })
 );
@@ -52,9 +60,8 @@ if (process.env.NODE_ENV !== 'test') {
 routes(app);
 
 if (process.env.NODE_ENV !== 'test') {
-  const PORT = process.env.PORT || 4000;
-  app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
+  server.listen(PORT, () => {
+    console.log(`Servidor HTTPS rodando na porta ${PORT}`);
   });
 }
 
