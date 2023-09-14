@@ -8,6 +8,8 @@ async function authUser(req, res, next) {
         return tratarErrosEsperados(res, new Error("Token de autenticação não fornecido"));
     }
 
+    console.log('Chave secreta JWT:', process.env.JWT_SECRET); // Adicione esta linha para verificar a chave secreta
+
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
