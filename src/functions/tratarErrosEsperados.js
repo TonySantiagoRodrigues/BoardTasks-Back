@@ -1,12 +1,10 @@
-const S = require('string');
-
 function tratarErrosEsperados(res, err) {
 
 //   Entrar quando o moogonsee der algum erro
   if (String(err).includes(`ValidationError:`)) {
     return res.status(400).json({
       status: "Erro",
-      statusMensagem: S(String(err).replace("ValidationError: ", "")).replaceAll(':', '').s,
+      statusMensagem: String(err).replace("ValidationError: ", "").replaceAll(':', ''),
       resposta: String(err)
     });
   }
